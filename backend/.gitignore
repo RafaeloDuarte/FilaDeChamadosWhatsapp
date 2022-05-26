@@ -1,9 +1,9 @@
 node_modules
 public/*
-dist
-!dist/database/migrations/*
+#dist
+#!dist/database/migrations/*
 !public/.gitkeep
-.env
+#.env
 .env.test
 
 package-lock.json
