@@ -35,7 +35,6 @@ require("./bootstrap");
 require("reflect-metadata");
 require("express-async-errors");
 const express_1 = __importDefault(require("express"));
-const cors_1 = __importDefault(require("cors"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const Sentry = __importStar(require("@sentry/node"));
 require("./database");
@@ -45,10 +44,6 @@ const routes_1 = __importDefault(require("./routes"));
 const logger_1 = require("./utils/logger");
 Sentry.init({ dsn: process.env.SENTRY_DSN });
 const app = express_1.default();
-app.use(cors_1.default({
-    credentials: true,
-    origin: process.env.FRONTEND_URL
-}));
 app.use(cookie_parser_1.default());
 app.use(express_1.default.json());
 app.use(Sentry.Handlers.requestHandler());
