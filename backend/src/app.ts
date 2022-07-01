@@ -15,13 +15,12 @@ import { logger } from "./utils/logger";
 Sentry.init({ dsn: process.env.SENTRY_DSN });
 
 const app = express();
-
-app.use(
-  cors({
-    credentials: true,
-    origin: 'http://31.220.60.225:80'
-  })
-);
+//app.use(
+//  cors({
+//    credentials: true,
+//    origin: 'http://31.220.60.225:80'
+//  })
+//);
 app.use(cookieParser());
 app.use(express.json());
 app.use(Sentry.Handlers.requestHandler());
@@ -35,6 +34,10 @@ app.use(async (err: Error, req: Request, res: Response, _: NextFunction) => {
     logger.warn(err);
     return res.status(err.statusCode).json({ error: err.message });
   }
+  
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", 'GET,PUT,POST,DELETE');
+  app.use(cors());
 
   logger.error(err);
   return res.status(500).json({ error: "Internal server error" });
