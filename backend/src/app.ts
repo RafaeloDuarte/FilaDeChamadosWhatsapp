@@ -19,7 +19,7 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: process.env.FRONTEND_URL
+    origin: 'http://31.220.60.225:80'
   })
 );
 app.use(cookieParser());
