@@ -45,10 +45,12 @@ const routes_1 = __importDefault(require("./routes"));
 const logger_1 = require("./utils/logger");
 Sentry.init({ dsn: process.env.SENTRY_DSN });
 const app = express_1.default();
-app.use(cors_1.default({
-    credentials: true,
-    origin: process.env.FRONTEND_URL
-}));
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", 'GET,PUT,POST,DELETE');
+    app.use(cors_1.default());
+    next();
+});
 app.use(cookie_parser_1.default());
 app.use(express_1.default.json());
 app.use(Sentry.Handlers.requestHandler());
@@ -60,6 +62,9 @@ app.use((err, req, res, _) => __awaiter(void 0, void 0, void 0, function* () {
         logger_1.logger.warn(err);
         return res.status(err.statusCode).json({ error: err.message });
     }
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", 'GET,PUT,POST,DELETE');
+    app.use(cors_1.default());
     logger_1.logger.error(err);
     return res.status(500).json({ error: "Internal server error" });
 }));
